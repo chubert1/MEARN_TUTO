@@ -1,30 +1,51 @@
+const asyncHandler = require('express-async-handler')
+const Product = require('../models/productModel')
 // @desc Get products
 // @route GET /api/products
 // @access Private
-const getProducts = async (req, res) => {
-    res.status(200).json({message :'Get products'})
-}
+const getProducts = asyncHandler(async (req, res) => {
+
+    const products = await Product.find()
+    res.status(200).json(products)
+})
 // @desc Set products
 // @route POST /api/products
 // @access Private
-const setProducts = async (req, res) => {
+const setProducts = asyncHandler(async (req, res) => {
     if(!req.body.text) {
         res.status(400)
         throw new Error('Please enter a text field')
     }
-    res.status(200).json({message :'Set products'})
-}
+    const product = await Product.create({
+        text: req.body.text
+    })
+    res.status(200).json(product)
+})
 // @desc Update products
 // @route PUT /api/products/:id
 // @access Private
-const updateProducts = async (req, res) => {
-    res.status(200).json({message :`Update product ${req.params.id}`})
-}
+const updateProducts = asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id)
+    if (!product) {
+        res.status(400);
+        throw new Error('Product not found')
+    }
+    const updateProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
+    res.status(200).json(updateProduct)
+})
 // @desc Delete products
 // @route DELETE /api/products/:id
 // @access Private
-const deleteProducts = async (req, res) => {
-    res.status(200).json({message :`Delete product ${req.params.id}`})
-}
+const deleteProducts = asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id)
+    if (!product) {
+        res.status(400);
+        throw new Error('Product not found')
+    }
+        await Product.deleteOne()
+    res.status(200).json({id: req.params.id})
+})
 
 module.exports = {getProducts,setProducts,updateProducts,deleteProducts} 
