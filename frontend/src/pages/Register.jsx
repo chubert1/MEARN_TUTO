@@ -28,7 +28,7 @@ function Register() {
         <p>Please create an account</p>
       </section>
       <section className="form">
-        <form onSubmit={(e)=> onSubmit(e)}>
+        <form onSubmit={onSubmit}>
           <div className="form-group">
             <input
               type="text"

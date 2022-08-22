@@ -26,7 +26,7 @@ function Login() {
         <p>Login and start setting products</p>
       </section>
       <section className="form">
-        <form onSubmit={(e)=> onSubmit(e)}>
+        <form onSubmit={onSubmit}>
           <div className="form-group">
             <input
               type="email"
