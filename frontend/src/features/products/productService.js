@@ -26,6 +26,18 @@ const getProduct = async (token) => {
 
   return response.data;
 };
-const productService = { createProduct, getProduct };
+// Delete user product
+
+const deleteProduct = async (productId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(API_URL + productId,config);
+
+  return response.data;
+};
+const productService = { createProduct, getProduct, deleteProduct, };
 
 export default productService;
